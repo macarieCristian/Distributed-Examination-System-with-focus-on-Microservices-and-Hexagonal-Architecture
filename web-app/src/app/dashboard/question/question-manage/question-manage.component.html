@@ -1,0 +1,148 @@
+<div class="title">Add Question</div>
+<form #formElement="ngForm" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+  <div class="row form-header">
+    <div class="header-content">
+      <div>Question</div>
+      <button mat-button
+              [disabled]="!questionForm.get('type').value"
+              type="button"
+              (click)="onAddAnswer()">
+        <mat-icon mat-list-icon>add_circle_outline</mat-icon>
+        Answer
+      </button>
+    </div>
+  </div>
+  <div class="row row-container">
+    <div class="col-6 left-col">
+      <div class="left-column" (resized)="onLeftColumnResized($event)">
+        <mat-form-field appearance="outline">
+          <mat-label>Question text</mat-label>
+          <input matInput
+                 required
+                 formControlName="text"
+                 placeholder="Enter the question...">
+          <mat-error *ngIf="questionForm.get('text').hasError('required')">Please enter a question</mat-error>
+          <mat-hint>The genuine question</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="text-area-form-field">
+          <mat-label>Question description</mat-label>
+          <textarea matInput
+                    required
+                    formControlName="description"
+                    placeholder="Enter the description..."
+                    [rows]="5"
+                    [mat-autosize]="true"></textarea>
+          <mat-error *ngIf="questionForm.get('description').hasError('required')">Please enter a description</mat-error>
+          <mat-hint>Description of the question</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <input matInput
+                 required
+                 formControlName="category"
+                 placeholder="Enter the category...">
+          <mat-error *ngIf="questionForm.get('category').hasError('required')">Please enter a category</mat-error>
+          <mat-hint>Category of the question</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Question type</mat-label>
+          <mat-select formControlName="type"
+                      (selectionChange)="onQuestionTypeSelectionChanged()"
+                      required>
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let type of questionTypes" [value]="type">
+              {{formatter.formatQuestionType(type)}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="questionForm.get('type').hasError('required')">Please choose a question type</mat-error>
+          <mat-hint>Type of the question</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-6 right-col">
+      <div class="right-column"
+           [style.max-height.px]="rightColumnMaxHeight"
+           formArrayName="answers">
+        <ng-container *ngIf="questionForm.get('type').value else answersSectionDefault">
+          <div *ngFor="let answerCtrl of answersControls.controls; let i = index" [formGroupName]="i"
+               class="answer-container">
+            <ng-container [ngSwitch]="questionForm.get('type').value">
+              <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+                <mat-checkbox class="answer-checkbox"
+                              [checked]="answerCtrl.get('rightAnswer').value"
+                              formControlName="rightAnswer"></mat-checkbox>
+              </ng-container>
+              <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+                <mat-radio-group name="radio-group">
+                  <mat-radio-button class="answer-radio-button"
+                                    [checked]="answerCtrl.get('rightAnswer').value"
+                                    [value]="true"
+                                    id="{{'answer-radio' + i}}"
+                                    (change)="radioChanged(i)"></mat-radio-button>
+                </mat-radio-group>
+              </ng-container>
+              <mat-form-field appearance="outline" class="answer-form-field">
+                <mat-label>Answer text</mat-label>
+                <input matInput
+                       required
+                       formControlName="text"
+                       placeholder="Enter answer text...">
+                <mat-error *ngIf="answersControls.get(i + '').get('text').hasError('required')">Please enter the
+                  answer's text
+                </mat-error>
+                <mat-hint>The text to appear next to the answer</mat-hint>
+              </mat-form-field>
+              <button mat-icon-button aria-label="Remove answer"
+                      class="remove-answer-button"
+                      *ngIf="answersControls.controls.length > 1"
+                      (click)="onDeleteAnswer(i)"
+                      type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+          </div>
+        </ng-container>
+        <ng-template #answersSectionDefault>
+          <div class="answers-section-default">Please choose a question type.</div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 form-error-container">
+          <mat-error *ngIf="questionForm.hasError('noAnswerSelected') && formElement.submitted">
+            {{questionForm.getError('noAnswerSelected')}}
+          </mat-error>
+          <mat-error *ngIf="errorMessage">
+            {{errorMessage}}
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 form-buttons-container">
+          <button mat-raised-button
+                  [disabled]="loading"
+                  class="save-button"
+                  color="accent"
+                  type="submit">
+            <span *ngIf="!loading; else spinner">Save</span>
+          </button>
+          <button mat-raised-button
+                  [disabled]="loading"
+                  (click)="onCancel()"
+                  type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<ng-template #spinner>
+  <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+</ng-template>

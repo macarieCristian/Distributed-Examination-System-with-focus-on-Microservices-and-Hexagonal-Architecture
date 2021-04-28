@@ -1,0 +1,37 @@
+<p>{{question.description}}</p>
+<ng-container [ngSwitch]="question.type">
+  <ng-container *ngSwitchCase="questionType.FREE_TEXT">
+    <ng-container *ngFor="let answer of question.answers">
+      <div>
+        <mat-form-field appearance="outline" class="text-area-form-field">
+          <mat-label>{{answer.text}}</mat-label>
+          <textarea matInput placeholder="Enter your answer..." [rows]="5" [mat-autosize]="true"></textarea>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+    <mat-radio-group aria-label="Select an answer" class="radio-group">
+      <ng-container *ngFor="let answer of question.answers">
+        <mat-radio-button [value]="answer.uuid"
+                          class="radio-button"
+                          [checked]="answer.rightAnswer">
+          {{answer.text}}
+        </mat-radio-button>
+      </ng-container>
+    </mat-radio-group>
+  </ng-container>
+  <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+    <div class="checkbox-container">
+      <ng-container *ngFor="let answer of question.answers">
+        <mat-checkbox class="checkbox"
+                      [value]="answer.uuid"
+                      [checked]="answer.rightAnswer">
+          {{answer.text}}
+        </mat-checkbox>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+
+

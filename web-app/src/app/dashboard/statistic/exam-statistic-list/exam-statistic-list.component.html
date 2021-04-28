@@ -1,0 +1,65 @@
+<div class="row form-header">
+  <div class="header-content">
+    <div>Exam Statistics</div>
+    <div>
+      <button mat-button type="button"
+              [disabled]="selectedExamQuestions.length === 0"
+              (click)="questionStatisticListComponent.openAll()">
+        Expand All
+      </button>
+      <button mat-button type="button"
+              [disabled]="selectedExamQuestions.length === 0"
+              (click)="questionStatisticListComponent.closeAll()">
+        Collapse All
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row row-container">
+  <div class="col-4 left-col">
+    <div class="left-column" (resized)="onLeftColumnResized($event)">
+      <mat-error class="error-message-container" *ngIf="errorMessage else examsList">{{errorMessage}}</mat-error>
+      <ng-template #examsList>
+        <mat-selection-list [multiple]="false" *ngIf="exams.length !== 0 else examsSectionDefault">
+          <mat-list-option *ngFor="let exam of exams"
+                           [routerLink]="['../', exam.uuid]"
+                           [selected]="exam.uuid === selectedExamId">
+            <div class="exam-item">
+              {{exam.title}}
+              <span matBadge="4"
+                    matBadgeSize="small"
+                    matBadgeColor="warn"
+                    matBadgeOverlap="true"></span>
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </ng-template>
+      <ng-template #examsSectionDefault>
+        <div class="section-default">You don't have any exams. Add one
+          <a [routerLink]="['../../../exam-new']">here</a>.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="col-8 right-col">
+    <div class="right-column" [style.max-height.px]="rightColumnMaxHeight">
+      <ng-container
+        *ngIf="!questionsLoading || !selectedExamId else spinner">
+        <div class="right-column-container"
+             *ngIf="selectedExamQuestions.length !== 0 else questionsSectionDefault">
+          <app-question-statistic-list [selectedExamId]="selectedExamId"
+                                       [questions]="selectedExamQuestions"
+                                       [questionsErrorMessage]="questionsErrorMessage"></app-question-statistic-list>
+        </div>
+      </ng-container>
+      <ng-template #spinner>
+        <div class="spinner-container">
+          <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+        </div>
+      </ng-template>
+      <ng-template #questionsSectionDefault>
+        <div class="section-default">Select an exam to see its question's statistics.</div>
+      </ng-template>
+    </div>
+  </div>
+</div>

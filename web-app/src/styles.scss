@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f0ebf8;
+}
+
+#percentage-form-field-id div.mat-form-field-suffix {
+  top: -0.25em;
+}

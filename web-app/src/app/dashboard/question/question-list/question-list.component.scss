@@ -1,0 +1,46 @@
+@import "~src/_variables.scss";
+
+.action-buttons {
+  margin-top: 40px;
+  background-color: $primary;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.question-category {
+  text-transform: capitalize;
+}
+
+.mat-expansion-panel-header-description {
+  flex-grow: 1;
+}
+
+.mat-expansion-panel-header-title {
+  flex-grow: 5;
+}
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+#default-panel-title-id {
+  display: flex;
+  justify-content: center;
+  color: black;
+}
+
+#error-panel-title-id {
+  display: flex;
+  justify-content: center;
+}
+
+.new-question-link {
+  margin-left: 5px;
+}

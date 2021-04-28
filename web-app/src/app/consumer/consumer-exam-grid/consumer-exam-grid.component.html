@@ -1,0 +1,28 @@
+<div class="title">Available Exams</div>
+<div class="row">
+  <mat-error class="card-title" *ngIf="errorMessage">{{errorMessage}}</mat-error>
+  <ng-container *ngIf="!loading else spinner">
+    <div class="col-3 coll-spacing" *ngFor="let exam of exams">
+      <mat-card class="card-base" [routerLink]="[exam.uuid]">
+        <mat-card-header class="card-header">
+          <mat-card-title class="card-title">{{exam.title}}</mat-card-title>
+          <mat-card-subtitle class="card-subtitle">{{formatTimeLabel(exam.duration)}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="description-paragraph">
+            {{formatDescription(exam.description, 200)}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions class="action-buttons-container">
+          <button mat-raised-button color="accent" class="enter-button">Enter</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+  </div>
+</ng-template>

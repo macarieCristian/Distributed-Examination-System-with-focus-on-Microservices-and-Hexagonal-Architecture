@@ -1,0 +1,75 @@
+@import "~src/_variables.scss";
+
+.form-header {
+  margin-top: 40px;
+  min-height: 36px;
+  background-color: $primary;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row-container {
+  background-color: white;
+  padding: 20px 0 10px 0;
+}
+
+.left-col {
+  border-right: solid 1px rgba(0, 0, 0, .12);
+}
+
+.right-col {
+  overflow-y: auto;
+}
+
+.left-column {
+  display: flex;
+  min-height: 400px;
+  flex-direction: column;
+  padding-right: 20px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.right-column-container {
+  padding-bottom: 20px;
+}
+
+.section-default {
+  text-align: center;
+}
+
+.exam-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 30px;
+}
+
+.error-message-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+
+@media only screen and (min-width: 1920px) {
+  .left-column {
+    min-height: 562px;
+  }
+}

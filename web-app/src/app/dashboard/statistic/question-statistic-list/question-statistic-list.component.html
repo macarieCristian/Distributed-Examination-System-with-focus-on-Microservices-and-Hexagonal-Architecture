@@ -1,0 +1,37 @@
+<mat-accordion class="headers-align" multi>
+  <mat-expansion-panel *ngIf="questionsErrorMessage else questionsList" hideToggle
+                       disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title id="error-panel-title-id">
+        <mat-error>{{questionsErrorMessage}}</mat-error>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <ng-template #questionsList>
+    <mat-expansion-panel *ngFor="let question of questions" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{question.text}}
+        </mat-panel-title>
+        <mat-panel-description class="question-category">
+          {{question.category}}
+          <ng-container [ngSwitch]="question.type">
+            <ng-container *ngSwitchCase="questionType.FREE_TEXT">
+              <mat-icon>notes</mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+              <mat-icon>radio_button_checked</mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+              <mat-icon>check_box</mat-icon>
+            </ng-container>
+          </ng-container>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-question-statistics-list-item [question]="question"
+                                         [selectedExamId]="selectedExamId">
+      </app-question-statistics-list-item>
+    </mat-expansion-panel>
+  </ng-template>
+</mat-accordion>
+

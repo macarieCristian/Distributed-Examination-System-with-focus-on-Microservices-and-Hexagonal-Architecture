@@ -1,0 +1,46 @@
+<div class="dashboard-container-fluid">
+  <div class="row dashboard-row">
+    <div class="col-2 mat-drawer-side">
+      <mat-list>
+        <div mat-subheader>Exams</div>
+        <mat-list-item routerLink="exam" routerLinkActive="list-item-selected">
+          <mat-icon mat-list-icon>list</mat-icon>
+          <div mat-line>Portfolio</div>
+        </mat-list-item>
+        <mat-list-item routerLink="exam-new" routerLinkActive="list-item-selected">
+          <mat-icon mat-list-icon>add_circle</mat-icon>
+          <div mat-line>Prepare Exam</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <div mat-subheader>Questons</div>
+        <mat-list-item routerLink="question" routerLinkActive="list-item-selected">
+          <mat-icon mat-list-icon>help_center</mat-icon>
+          <div mat-line>Questions List</div>
+        </mat-list-item>
+        <mat-list-item routerLink="question-new" routerLinkActive="list-item-selected">
+          <mat-icon mat-list-icon>add_circle</mat-icon>
+          <div mat-line>Add Question</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <div mat-subheader>Evaluation</div>
+<!--        <mat-list-item>-->
+<!--          <mat-icon mat-list-icon>rule</mat-icon>-->
+<!--          <div mat-line>Check Exams</div>-->
+<!--        </mat-list-item>-->
+        <mat-list-item routerLink="statistic" routerLinkActive="list-item-selected">
+          <mat-icon matBadge="3" matBadgeSize="small" matBadgeColor="warn" mat-list-icon>insert_chart</mat-icon>
+          <div mat-line>Statistics</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="col-10 scrollable-col">
+        <div class="row content">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <router-outlet></router-outlet>
+          </div>
+          <div class="col-1"></div>
+      </div>
+    </div>
+  </div>
+</div>

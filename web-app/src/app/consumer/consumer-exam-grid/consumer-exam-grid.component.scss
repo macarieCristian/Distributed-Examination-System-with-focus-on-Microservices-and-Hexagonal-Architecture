@@ -1,0 +1,59 @@
+@import "~src/_variables.scss";
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
+.coll-spacing {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.card-base {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $primary;
+  }
+}
+
+.enter-button {
+  &:hover {
+    color: white;
+    background-color: $primary;
+  }
+}
+
+.action-buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.card-subtitle {
+  text-align: center;
+}
+
+.description-paragraph {
+  text-align: justify;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}

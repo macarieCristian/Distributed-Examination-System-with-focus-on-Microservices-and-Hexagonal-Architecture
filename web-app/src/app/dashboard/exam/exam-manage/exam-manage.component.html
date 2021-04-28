@@ -1,0 +1,180 @@
+<div class="title">Prepare Exam</div>
+<form *ngIf="examForm"
+      #formElement="ngForm"
+      [formGroup]="examForm"
+      (ngSubmit)="onSubmit()">
+  <div class="row form-header">
+    <div class="header-content">
+      <div>Exam</div>
+    </div>
+  </div>
+  <div class="row row-container">
+    <div class="col-5 left-col">
+      <div class="left-column" (resized)="onLeftColumnResized($event)">
+        <mat-form-field appearance="outline">
+          <mat-label>Exam title</mat-label>
+          <input matInput
+                 required
+                 formControlName="title"
+                 placeholder="Enter the title...">
+          <mat-error *ngIf="examForm.get('title').hasError('required')">Please enter a title</mat-error>
+          <mat-hint>The exam title to be displayed</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="text-area-form-field">
+          <mat-label>Exam description</mat-label>
+          <textarea matInput
+                    required
+                    formControlName="description"
+                    placeholder="Enter the description..."
+                    [rows]="10"
+                    [mat-autosize]="true"></textarea>
+          <mat-error *ngIf="examForm.get('description').hasError('required')">Please enter a description</mat-error>
+          <mat-hint>Description of the exam</mat-hint>
+        </mat-form-field>
+
+        <div>
+          <div class="slider-container">
+            <mat-label class="slider-label">Exam duration *</mat-label>
+            <mat-slider #sliderEl thumbLabel
+                        [displayWith]="formatLabel"
+                        formControlName="duration"
+                        tickInterval="30" step="1" min="1" max="360" class="slider">
+            </mat-slider>
+            <mat-chip-list class="time-chip">
+              <mat-chip color="accent" selected>{{sliderEl.displayValue}}</mat-chip>
+            </mat-chip-list>
+          </div>
+          <mat-error
+            *ngIf="examForm.get('duration').hasError('required') && (examForm.get('duration').touched || formElement.submitted)"
+            class="hint-props">
+            Please select the exam's duration
+          </mat-error>
+          <mat-hint
+            *ngIf="examForm.get('duration').valid || (examForm.get('duration').untouched && !formElement.submitted)"
+            class="hint-props">Time required for solving the exam
+          </mat-hint>
+        </div>
+      </div>
+    </div>
+    <div class="col-7 right-col">
+      <div class="right-column" [style.max-height.px]="rightColumnMaxHeight"
+           formArrayName="examQuestions">
+        <mat-error *ngIf="errorMessage" class="loading-error-container">{{errorMessage}}</mat-error>
+        <ng-container *ngIf="!loading else spinner">
+          <div class="row" *ngFor="let examQuestionCtrl of examQuestionsControls.controls; let i = index"
+               [formGroupName]="i">
+            <div class="col-3">
+              <mat-form-field appearance="outline"
+                              class="weight-form-field"
+                              id="percentage-form-field-id">
+                <mat-label>Weight</mat-label>
+                <input matInput
+                       type="number"
+                       formControlName="weight">
+                <mat-icon [inline]="true" matSuffix>%</mat-icon>
+                <mat-error *ngIf="examQuestionCtrl.get('weight').hasError('required')">
+                  {{examQuestionCtrl.get('weight').getError('required')}}
+                </mat-error>
+                <mat-error *ngIf="examQuestionCtrl.get('weight').hasError('reevaluate')">
+                  {{examQuestionCtrl.get('weight').getError('reevaluate')}}
+                </mat-error>
+                <mat-error *ngIf="examQuestionCtrl.get('weight').hasError('min')">
+                  Min value is {{examQuestionCtrl.get('weight').getError('min').min}}
+                </mat-error>
+                <mat-error *ngIf="examQuestionCtrl.get('weight').hasError('max')">
+                  Max value is {{examQuestionCtrl.get('weight').getError('max').max}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-9 question-list-option-container">
+              <div class="selection-option-container">
+                <div class="selection-option-container-inner">
+                  <div class="question-list-option"
+                       matRipple
+                       (click)="onQuestionSelectionChange({checked: !checkbox.checked, source: checkbox}, questions[i].uuid, i)">
+                    <div class="question-text-container">
+                      <div class="question-content-container">
+                        <div class="question-type-container">
+                          <ng-container [ngSwitch]="questions[i].type">
+                            <ng-container *ngSwitchCase="questionType.FREE_TEXT">
+                              <mat-icon>notes</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+                              <mat-icon>radio_button_checked</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+                              <mat-icon>check_box</mat-icon>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                        <div class="question-text-category-container">
+                          <div>{{questions[i].text}}</div>
+                          <div class="question-category">{{questions[i].category}}</div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <mat-checkbox disableRipple
+                                  #checkbox
+                                  (click)="onQuestionSelectionChange({checked: !checkbox.checked, source: checkbox}, questions[i].uuid, i)"
+                                  (change)="onQuestionSelectionChange($event, questions[i].uuid, i)"
+                                  formControlName="questionUuid"></mat-checkbox>
+                  </div>
+                  <div class="drill-down-container">
+                    <a mat-icon-button aria-label="Drill down icon"
+                       [routerLink]="['../', 'question', questions[i].uuid]"
+                       target="_blank"
+                       rel="noopener"
+                       type="button">
+                      <mat-icon>keyboard_arrow_right</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 form-error-container">
+          <mat-error *ngIf="examForm.hasError('noQuestionSelected') && formElement.submitted">
+            {{examForm.getError('noQuestionSelected')}}
+          </mat-error>
+          <mat-error *ngIf="examForm.hasError('invalidTotalWeight') && formElement.submitted">
+            {{examForm.getError('invalidTotalWeight')}}
+          </mat-error>
+          <mat-error *ngIf="addExamErrorMessage">
+            {{addExamErrorMessage}}
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 form-buttons-container">
+          <button mat-raised-button
+                  class="save-button"
+                  color="accent"
+                  [disabled]="addExamLoading"
+                  type="submit">
+            <span *ngIf="!addExamLoading; else spinner">Save</span>
+          </button>
+          <button mat-raised-button
+                  [disabled]="addExamLoading"
+                  (click)="onCancel()"
+                  type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+  </div>
+</ng-template>

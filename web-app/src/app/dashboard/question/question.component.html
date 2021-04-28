@@ -1,0 +1,12 @@
+<div class="title">Questions Portfolio</div>
+<ng-container *ngIf="!loading else spinner">
+  <app-question-list [questions]="questions"
+                     [errorMessage]="errorMessage"
+                     [selectedQuestionId]="selectedQuestionId"></app-question-list>
+</ng-container>
+
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+  </div>
+</ng-template>

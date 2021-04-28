@@ -1,0 +1,49 @@
+.toolbar {
+  justify-content: space-between;
+  height: 56px;
+
+  & span {
+    padding-right: 2rem;
+    cursor: pointer;
+    font-weight: 300;
+
+    &:last-of-type {
+      padding-right: 0;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      opacity: .8;
+    }
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  }
+}
+
+.logo-container {
+  display: flex;
+  margin-left: 10px;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.app-logo {
+  height: 30px;
+  width: 30px;
+  font-size: 30px;
+}

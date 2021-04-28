@@ -1,0 +1,42 @@
+.dashboard-container-fluid {
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.dashboard-row {
+  height: calc(100vh - 56px);
+}
+
+.list-item-selected {
+  background: rgba(0, 0, 0, .12);
+}
+
+.mat-list-item {
+  cursor: pointer;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+  &:hover {
+    background: rgba(0, 0, 0, .06);
+  }
+
+  &:focus {
+    border: none;
+  }
+}
+
+.scrollable-col {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.content {
+  margin-top: 80px;
+  margin-bottom: 60px;
+}

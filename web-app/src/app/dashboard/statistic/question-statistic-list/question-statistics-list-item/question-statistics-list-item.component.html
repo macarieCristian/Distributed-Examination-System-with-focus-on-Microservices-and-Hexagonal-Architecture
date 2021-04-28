@@ -1,0 +1,9 @@
+<ng-container *ngIf="chartData">
+  <google-chart [type]="chartType.BarChart"
+                [dynamicResize]="true"
+                [title]="chartTitle"
+                class="chart"
+                [options]="chartOptions"
+                [columns]="chartColumns"
+                [data]="chartData"></google-chart>
+</ng-container>

@@ -1,0 +1,108 @@
+@import "~src/_variables.scss";
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.left-col {
+  border-right: solid 1px rgba(0, 0, 0, .12)
+}
+
+.right-col {
+  overflow-y: auto;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.row-container {
+  background-color: white;
+  padding: 20px 0 10px 0;
+}
+
+.form-header {
+  margin-top: 40px;
+  background-color: $primary;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-error-container {
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-answer-button {
+  margin-bottom: 1.34375em;
+  &:hover {
+    color: $accent;
+  }
+}
+
+.answer-form-field {
+  width: 100%;
+}
+
+.answer-container {
+  display: flex;
+  align-items: center;
+}
+
+.answer-checkbox {
+  margin-bottom: 1.34375em;
+  margin-right: 1em;
+}
+
+.answer-radio-button {
+  margin-bottom: 1.34375em;
+  margin-right: 0.25em;
+}
+
+.answers-section-default {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.save-button {
+  margin-right: 20px;
+}
+
+.form-buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.text-area-form-field {
+  & textarea {
+    overflow-y: hidden;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  .left-column {
+    min-height: 500px;
+    & > mat-form-field {
+      margin-bottom: 35px;
+    }
+  }
+}

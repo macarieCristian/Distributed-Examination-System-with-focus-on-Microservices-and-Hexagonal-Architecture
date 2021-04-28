@@ -1,0 +1,13 @@
+<div class="title">Exams Statistics</div>
+<ng-container *ngIf="!loading else spinner">
+  <app-exam-statistic-list [exams]="exams"
+                           [selectedExamId]="selectedExamId"
+                           [selectedExamQuestions]="selectedExamQuestions"
+                           [errorMessage]="errorMessage"></app-exam-statistic-list>
+</ng-container>
+
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+  </div>
+</ng-template>

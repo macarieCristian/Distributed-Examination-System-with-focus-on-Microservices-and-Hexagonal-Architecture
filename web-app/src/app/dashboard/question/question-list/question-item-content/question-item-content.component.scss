@@ -1,0 +1,26 @@
+.text-area-form-field {
+  width: 100%;
+  & textarea {
+    overflow-y: hidden;
+  }
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.radio-button {
+  margin: 10px;
+}
+
+.checkbox {
+  margin: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}

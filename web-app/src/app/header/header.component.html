@@ -1,0 +1,10 @@
+<mat-toolbar *ngIf="currentUser" color="primary" class="toolbar">
+  <div class="logo-container">
+    <mat-icon class="app-logo">school</mat-icon>
+  </div>
+  <div>
+    <span routerLink="/dashboard" *ngIf="hasRole(userRole.ADMIN)">Dashboard</span>
+    <span routerLink="/consumer" *ngIf="hasRole(userRole.USER)">Consumer</span>
+    <span (click)="onLogout()">Logout</span>
+  </div>
+</mat-toolbar>

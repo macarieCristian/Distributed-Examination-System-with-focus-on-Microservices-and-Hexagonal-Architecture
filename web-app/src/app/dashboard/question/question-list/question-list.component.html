@@ -1,0 +1,47 @@
+<div class="action-buttons" *ngIf="!defaultComponent">
+  <button mat-button (click)="openAll()">Expand All</button>
+  <button mat-button (click)="closeAll()">Collapse All</button>
+</div>
+<mat-accordion class="headers-align" multi>
+  <mat-expansion-panel *ngIf="questions.length === 0 && !defaultComponent && !errorMessage" hideToggle disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title id="default-panel-title-id">
+        You don't have any questions. Add one<a class="new-question-link" [routerLink]="['../../question-new']">here</a>.
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="errorMessage else questionsList" hideToggle disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title id="error-panel-title-id">
+        <mat-error>{{errorMessage}}</mat-error>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <ng-template #questionsList>
+    <mat-expansion-panel *ngFor="let question of questions"
+                         [expanded]="!defaultComponent && question.uuid === selectedQuestionId"
+                         [routerLink]="!defaultComponent ? ['../', question.uuid] : null">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{question.text}}
+        </mat-panel-title>
+        <mat-panel-description class="question-category">
+          {{question.category}}
+          <ng-container [ngSwitch]="question.type">
+            <ng-container *ngSwitchCase="questionType.FREE_TEXT">
+              <mat-icon>notes</mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+              <mat-icon>radio_button_checked</mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+              <mat-icon>check_box</mat-icon>
+            </ng-container>
+          </ng-container>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-question-item-content [question]="question"></app-question-item-content>
+    </mat-expansion-panel>
+  </ng-template>
+</mat-accordion>
+

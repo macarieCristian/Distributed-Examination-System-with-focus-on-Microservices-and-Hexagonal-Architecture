@@ -1,0 +1,129 @@
+<mat-card class="card-base" *ngIf="exam">
+  <div class="content title-container">
+    <div class="title">{{exam.title}}</div>
+    <mat-chip-list>
+      <mat-chip class="timer" color="accent" selected>
+        <mat-icon>timer</mat-icon>
+        <span [hidden]="!activeExam" class="timer-value">
+          {{formatTimeLabel(remainingTime | async)}}
+        </span>
+        <span [hidden]="activeExam" class="timer-value">
+          {{formatTimeLabel(exam.duration * 60)}}
+        </span>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <mat-card-content>
+    <p class="content">
+      {{exam.description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions class="action-button-container" *ngIf="!activeExam">
+    <button mat-raised-button
+            [disabled]="loading"
+            color="primary"
+            (click)="startExam()">
+      <span *ngIf="!loading; else spinner">Start</span>
+    </button>
+  </mat-card-actions>
+</mat-card>
+<mat-error class="error-message" *ngIf="errorMessage">{{errorMessage}}</mat-error>
+<ng-container *ngIf="activeExam">
+  <form *ngIf="testForm"
+        #formElement="ngForm"
+        [formGroup]="testForm"
+        (ngSubmit)="onSubmit()">
+    <mat-accordion class="headers-align" multi
+                   formArrayName="questions">
+      <mat-expansion-panel *ngFor="let questionCtrl of questionsControls.controls; let i = index" [formGroupName]="i"
+                           [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{activeExam?.questions[i].text}}
+          </mat-panel-title>
+          <mat-panel-description class="question-category">
+            {{activeExam?.questions[i].category}}
+            <ng-container [ngSwitch]="activeExam?.questions[i].type">
+              <ng-container *ngSwitchCase="questionType.FREE_TEXT">
+                <mat-icon>notes</mat-icon>
+              </ng-container>
+              <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+                <mat-icon>radio_button_checked</mat-icon>
+              </ng-container>
+              <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+                <mat-icon>check_box</mat-icon>
+              </ng-container>
+            </ng-container>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <p>{{activeExam?.questions[i].description}}</p>
+        <ng-container [ngSwitch]="activeExam?.questions[i].type" formArrayName="answers">
+          <ng-container *ngSwitchCase="questionType.FREE_TEXT">
+            <ng-container *ngFor="let answerCtrl of getAnswersControls(i).controls; let j = index" [formGroupName]="j">
+              <div>
+                <mat-form-field appearance="outline" class="text-area-form-field">
+                  <mat-label>{{activeExam?.questions[i].answers[j].text}}</mat-label>
+                  <textarea matInput
+                            placeholder="Enter your answer..."
+                            formControlName="value"
+                            required
+                            [rows]="5"
+                            [mat-autosize]="true"></textarea>
+                  <mat-error>This answer is required.</mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="questionType.SINGLE_CHOICE">
+            <ng-container *ngFor="let answerCtrl of getAnswersControls(i).controls; let j = index" [formGroupName]="j">
+              <mat-radio-group class="radio-group">
+                <mat-radio-button class="radio-button"
+                                  (change)="radioChanged(i, j)"
+                                  [value]="true"
+                                  id="{{i + '-answer-radio-' + j}}"
+                                  [checked]="answerCtrl.get('checked').value">
+                  {{activeExam?.questions[i].answers[j].text}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </ng-container>
+            <mat-error *ngIf="questionCtrl.hasError('noAnswerSelected') && formElement.submitted">
+              {{questionCtrl.getError('noAnswerSelected')}}
+            </mat-error>
+          </ng-container>
+          <ng-container *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+            <div class="checkbox-container">
+              <ng-container *ngFor="let answerCtrl of getAnswersControls(i).controls; let j = index"
+                            [formGroupName]="j">
+                <mat-checkbox class="checkbox"
+                              [checked]="answerCtrl.get('checked').value"
+                              formControlName="checked">
+                  {{activeExam?.questions[i].answers[j].text}}
+                </mat-checkbox>
+              </ng-container>
+              <mat-error *ngIf="questionCtrl.hasError('noAnswerSelected') && formElement.submitted">
+                {{questionCtrl.getError('noAnswerSelected')}}
+              </mat-error>
+            </div>
+          </ng-container>
+        </ng-container>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-error class="error-message" *ngIf="submitExamErrorMessage">
+      {{submitExamErrorMessage}}
+    </mat-error>
+    <mat-card class="action-button-container submit-container">
+      <button mat-raised-button
+              type="submit"
+              [disabled]="submitExamLoading"
+              color="primary">
+        <span *ngIf="!submitExamLoading; else spinner">Submit</span>
+      </button>
+    </mat-card>
+  </form>
+</ng-container>
+
+<ng-template #spinner>
+  <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+</ng-template>

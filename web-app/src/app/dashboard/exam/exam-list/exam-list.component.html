@@ -1,0 +1,65 @@
+<div class="row form-header">
+  <div class="header-content">
+    <div>Exam</div>
+    <div>
+      <button mat-button type="button"
+              [disabled]="selectedExamQuestions.length === 0"
+              (click)="questionListComponent.openAll()">
+        Expand All
+      </button>
+      <button mat-button type="button"
+              [disabled]="selectedExamQuestions.length === 0"
+              (click)="questionListComponent.closeAll()">
+        Collapse All
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row row-container">
+  <div class="col-5 left-col">
+    <div class="left-column" (resized)="onLeftColumnResized($event)">
+      <mat-error class="error-message-container" *ngIf="errorMessage else examsList">{{errorMessage}}</mat-error>
+      <ng-template #examsList>
+        <mat-selection-list [multiple]="false" *ngIf="exams.length !== 0 else examsSectionDefault">
+          <mat-list-option *ngFor="let exam of exams"
+                           [routerLink]="['../', exam.uuid]"
+                           [selected]="exam.uuid === selectedExamId">
+            <div class="exam-item">
+              {{exam.title}}
+              <mat-chip-list>
+                <mat-chip color="accent" selected>{{formatTimeLabel(exam.duration)}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </ng-template>
+      <ng-template #examsSectionDefault>
+        <div class="section-default">You don't have any exams. Add one
+          <a [routerLink]="['../../exam-new']">here</a>.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="col-7 right-col">
+    <div class="right-column" [style.max-height.px]="rightColumnMaxHeight">
+      <ng-container *ngIf="!questionsLoading || !selectedExamId else spinner">
+        <div class="right-column-container" *ngIf="selectedExamQuestions.length !== 0 else questionsSectionDefault">
+          <app-question-list [questions]="selectedExamQuestions"
+                             [errorMessage]="questionsErrorMessage"
+                             [defaultComponent]="true"></app-question-list>
+        </div>
+      </ng-container>
+      <ng-template #spinner>
+        <div class="spinner-container">
+          <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+        </div>
+      </ng-template>
+      <ng-template #questionsSectionDefault>
+        <div class="section-default">Select an exam to see its questions.</div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+
+

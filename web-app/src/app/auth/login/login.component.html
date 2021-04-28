@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row form-container">
+    <div class="col-xs-12 col-md-3 col-xxl-4">
+      <mat-card>
+        <mat-card-header class="form-card-header">
+          <mat-card-title>Sign in</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form class="form" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput
+                     id="email"
+                     name="email"
+                     ngModel
+                     [disabled]="loading"
+                     email
+                     required>
+              <mat-error>Please enter a valid email</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput
+                     id="password"
+                     name="password"
+                     ngModel
+                     required
+                     [disabled]="loading"
+                     type="password">
+              <mat-error>Please enter your password</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="errorMessage" class="auth-error-span">{{errorMessage}}</mat-error>
+            <button mat-raised-button
+                    class="form-button"
+                    type="submit"
+                    [disabled]="loading"
+                    color="accent">
+              <span *ngIf="!loading; else spinner">Login</span>
+            </button>
+          </form>
+          <div class="hint-container">
+            <mat-hint>New to the app? <a class="form-link" (click)="onNavigate()">Create an account</a>.</mat-hint>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<ng-template #spinner>
+  <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>
+</ng-template>
