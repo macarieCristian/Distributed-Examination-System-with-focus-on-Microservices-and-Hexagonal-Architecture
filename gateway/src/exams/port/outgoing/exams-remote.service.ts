@@ -8,6 +8,7 @@ import { ExamDtoOut } from './dto/create-exam/exam-dto-out';
 import { Commands } from '../../../domain/enum/commands.enum';
 import { GetConsumerAvailableExamDto } from './dto/get-consumer-available-exam/get-consumer-available-exam-dto';
 import { GetConsumerAvailableExamHeaderDto } from './dto/get-consumer-available-exam-header/get-consumer-available-exam-header-dto';
+import { GetExamAnswersDto } from './dto/get-exam-answers/get-exam-answers-dto';
 
 @Injectable()
 export class ExamsRemoteService {
@@ -50,6 +51,14 @@ export class ExamsRemoteService {
   async getConsumerAvailableExam(examUuid): Promise<GetConsumerAvailableExamDto> {
     try {
       return await this.remoteProvidersClient.send({ cmd: Commands.GET_CONSUMER_AVAILABLE_EXAM }, examUuid).toPromise();
+    } catch (err) {
+      ExamsRemoteService.handleError(err);
+    }
+  }
+
+  async getExamAnswers(examUuid): Promise<GetExamAnswersDto> {
+    try {
+      return await this.remoteProvidersClient.send({ cmd: Commands.GET_EXAM_ANSWERS }, examUuid).toPromise();
     } catch (err) {
       ExamsRemoteService.handleError(err);
     }

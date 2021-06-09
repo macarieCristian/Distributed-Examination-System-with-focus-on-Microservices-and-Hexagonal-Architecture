@@ -7,5 +7,6 @@ export interface ExamAnswer {
   consumerUuid?: string;
   startedAt?: number;
   submittedAt?: number;
+  grade?: number;
   questions: { [uuid: string]: ExamAnswerQuestion };
 }

@@ -13,6 +13,7 @@ import {Exam} from '../models/exam.model';
 import {addExamSuccess, loadExamsStart} from './store/exams.actions';
 import {addExamAnswer, loadExamAnswersStart} from './store/statistics.actions';
 import {ExamAnswerDto} from '../dtos/exam.answer.dto';
+import {StatisticType} from '../models/enum/statistic-type';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ import {ExamAnswerDto} from '../dtos/exam.answer.dto';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  statisticTypeEnum = StatisticType;
   private websocketQuestionsSubscription: Subscription;
   private websocketExamsSubscription: Subscription;
   private websocketExamsAnswersSubscription: Subscription;
@@ -68,6 +70,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             break;
         }
       });
+  }
+
+  isLinkActive(url): boolean {
+    return this.router.url.includes(url);
   }
 
   ngOnDestroy(): void {

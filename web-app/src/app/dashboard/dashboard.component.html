@@ -23,23 +23,25 @@
         </mat-list-item>
         <mat-divider></mat-divider>
         <div mat-subheader>Evaluation</div>
-<!--        <mat-list-item>-->
-<!--          <mat-icon mat-list-icon>rule</mat-icon>-->
-<!--          <div mat-line>Check Exams</div>-->
-<!--        </mat-list-item>-->
-        <mat-list-item routerLink="statistic" routerLinkActive="list-item-selected">
-          <mat-icon matBadge="3" matBadgeSize="small" matBadgeColor="warn" mat-list-icon>insert_chart</mat-icon>
+        <!--        <mat-list-item>-->
+        <!--          <mat-icon mat-list-icon>rule</mat-icon>-->
+        <!--          <div mat-line>Check Exams</div>-->
+        <!--        </mat-list-item>-->
+        <mat-list-item routerLink="statistic" [queryParams]="{statistics: statisticTypeEnum.EXAM}"
+                       [class.list-item-selected]="isLinkActive('/statistic/exam')">
+          <!--          <mat-icon matBadge="3" matBadgeSize="small" matBadgeColor="warn" mat-list-icon>insert_chart</mat-icon>-->
+          <mat-icon mat-list-icon>insert_chart</mat-icon>
           <div mat-line>Statistics</div>
         </mat-list-item>
       </mat-list>
     </div>
     <div class="col-10 scrollable-col">
-        <div class="row content">
-          <div class="col-1"></div>
-          <div class="col-10">
-            <router-outlet></router-outlet>
-          </div>
-          <div class="col-1"></div>
+      <div class="row content">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <router-outlet></router-outlet>
+        </div>
+        <div class="col-1"></div>
       </div>
     </div>
   </div>

@@ -58,6 +58,11 @@ export const selectExamQuestions = (examUuid: string) => createSelector(
 
 export const selectStatisticsFeature = (state: AppState) => state.statistics;
 
+export const selectExamGradesByExamUuid = (uuid: string) => createSelector(
+  selectStatisticsFeature,
+  (state) => state.examGrades[uuid]
+);
+
 // export const selectExamAnswerQuestionsByExamUuid = (examUuid: string) => createSelector(
 //   selectStatisticsFeature,
 //   (state) => state.examAnswers?.[examUuid]?.questions

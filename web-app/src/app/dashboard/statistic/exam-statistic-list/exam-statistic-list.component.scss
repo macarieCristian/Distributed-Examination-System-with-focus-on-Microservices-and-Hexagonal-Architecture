@@ -68,6 +68,10 @@
   height: 40vh;
 }
 
+.button-active {
+  background-color: rgba(0,0,0,.3);
+}
+
 @media only screen and (min-width: 1920px) {
   .left-column {
     min-height: 562px;

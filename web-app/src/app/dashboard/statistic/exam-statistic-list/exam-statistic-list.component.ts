@@ -7,6 +7,8 @@ import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {Question} from '../../../models/question.model';
 import {selectQuestionsFeature} from '../../../store/app.selectors';
+import {ActivatedRoute} from '@angular/router';
+import {StatisticType} from '../../../models/enum/statistic-type';
 
 @Component({
   selector: 'app-exam-statistic-list',
@@ -19,6 +21,9 @@ export class ExamStatisticListComponent implements OnInit, OnDestroy {
   @Input() selectedExamId: string;
   @Input() errorMessage: string;
 
+  statisticsType: StatisticType;
+  statisticTypeEnum = StatisticType;
+
   questionsErrorMessage: string;
   questionsLoading: boolean;
 
@@ -26,8 +31,10 @@ export class ExamStatisticListComponent implements OnInit, OnDestroy {
   @ViewChild(QuestionStatisticListComponent) questionStatisticListComponent: QuestionStatisticListComponent;
 
   private questionsSubscription: Subscription;
+  private routeSubscription: Subscription;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>,
+              private route: ActivatedRoute) {
   }
 
   // used for smart scroll on right column
@@ -41,9 +48,12 @@ export class ExamStatisticListComponent implements OnInit, OnDestroy {
         this.questionsErrorMessage = questionsState.loadQuestionsErrorMessage;
         this.questionsLoading = questionsState.loadQuestionsLoading;
       });
+    this.routeSubscription = this.route.queryParams
+      .subscribe(params => this.statisticsType = params.statistics);
   }
 
   ngOnDestroy(): void {
     this.questionsSubscription?.unsubscribe();
+    this.routeSubscription?.unsubscribe();
   }
 }

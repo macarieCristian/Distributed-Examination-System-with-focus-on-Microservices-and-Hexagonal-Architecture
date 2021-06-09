@@ -1,13 +1,28 @@
 <div class="row form-header">
   <div class="header-content">
-    <div>Exam Statistics</div>
     <div>
       <button mat-button type="button"
+              routerLinkActive="button-active"
+              [routerLink]
+              [queryParams]="{statistics: statisticTypeEnum.EXAM}">
+        Exam Statistics
+      </button>
+      <button mat-button type="button"
+              routerLinkActive="button-active"
+              [routerLink]
+              [queryParams]="{statistics: statisticTypeEnum.GRADE}">
+        Grade Statistics
+      </button>
+    </div>
+    <div>
+      <button mat-button type="button"
+              *ngIf="statisticsType === statisticTypeEnum.EXAM"
               [disabled]="selectedExamQuestions.length === 0"
               (click)="questionStatisticListComponent.openAll()">
         Expand All
       </button>
       <button mat-button type="button"
+              *ngIf="statisticsType === statisticTypeEnum.EXAM"
               [disabled]="selectedExamQuestions.length === 0"
               (click)="questionStatisticListComponent.closeAll()">
         Collapse All
@@ -23,13 +38,14 @@
         <mat-selection-list [multiple]="false" *ngIf="exams.length !== 0 else examsSectionDefault">
           <mat-list-option *ngFor="let exam of exams"
                            [routerLink]="['../', exam.uuid]"
+                           [queryParams]="{statistics: statisticsType}"
                            [selected]="exam.uuid === selectedExamId">
             <div class="exam-item">
               {{exam.title}}
-              <span matBadge="4"
-                    matBadgeSize="small"
-                    matBadgeColor="warn"
-                    matBadgeOverlap="true"></span>
+              <!--              <span matBadge="4"-->
+              <!--                    matBadgeSize="small"-->
+              <!--                    matBadgeColor="warn"-->
+              <!--                    matBadgeOverlap="true"></span>-->
             </div>
           </mat-list-option>
         </mat-selection-list>
@@ -45,13 +61,21 @@
     <div class="right-column" [style.max-height.px]="rightColumnMaxHeight">
       <ng-container
         *ngIf="!questionsLoading || !selectedExamId else spinner">
-        <div class="right-column-container"
-             *ngIf="selectedExamQuestions.length !== 0 else questionsSectionDefault">
-          <app-question-statistic-list [selectedExamId]="selectedExamId"
-                                       [questions]="selectedExamQuestions"
-                                       [questionsErrorMessage]="questionsErrorMessage"></app-question-statistic-list>
-        </div>
+        <ng-container [ngSwitch]="statisticsType">
+          <ng-container *ngSwitchCase="statisticTypeEnum.EXAM">
+            <div class="right-column-container"
+                 *ngIf="selectedExamQuestions.length !== 0 else questionsSectionDefault">
+              <app-question-statistic-list [selectedExamId]="selectedExamId"
+                                           [questions]="selectedExamQuestions"
+                                           [questionsErrorMessage]="questionsErrorMessage"></app-question-statistic-list>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="statisticTypeEnum.GRADE">
+            <app-grade-statistic></app-grade-statistic>
+          </ng-container>
+        </ng-container>
       </ng-container>
+
       <ng-template #spinner>
         <div class="spinner-container">
           <mat-spinner color="primary" diameter="33.5" mode="indeterminate"></mat-spinner>

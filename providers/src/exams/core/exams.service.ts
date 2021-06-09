@@ -47,4 +47,24 @@ export class ExamsService {
     return exam;
   }
 
+  async getExamAnswers(examUuid: string): Promise<Exam> {
+    const exam = await this.examsRepository
+      .createQueryBuilder('exam')
+      .select(['exam.uuid', 'exam.ownerUuid', 'exam.duration', 'exam.available'])
+      .innerJoinAndSelect('exam.examQuestions', 'examQuestions')
+      .innerJoin('examQuestions.question', 'question')
+      .addSelect(['question.uuid', 'question.ownerUuid', 'question.category', 'question.type'])
+      .innerJoin('question.answers', 'answers')
+      .addSelect(['answers.uuid', 'answers.rightAnswer'])
+      .where({ uuid: examUuid })
+      .getOne();
+    if (!exam) {
+      throw new RpcException(new ExceptionValueObject(
+        ExceptionCode.NOT_FOUND,
+        `Exam with id ${examUuid} was not found`,
+      ));
+    }
+    return exam;
+  }
+
 }

@@ -5,6 +5,8 @@ import { CreateExamAnswerDto } from '../incoming/dto/create-exam-answer/create-e
 import { ConsumersEvents } from '../../../domain/enum/consumers-events.enum';
 import { Commands } from '../../../domain/enum/commands.enum';
 import { ExceptionCode } from '../../../domain/enum/exception-code.enum';
+import { GetExamAnswersDto } from '../../../exams/port/outgoing/dto/get-exam-answers/get-exam-answers-dto';
+import { CreateExamAnswerDtoOut } from './dto/create-exam-answer/create-exam-answer-dto-out';
 
 @Injectable()
 export class ConsumersRemoteService {
@@ -21,10 +23,10 @@ export class ConsumersRemoteService {
     }
   }
 
-  async createExamAnswer(createExamAnswerDtoIn: CreateExamAnswerDto) {
-    this.remoteConsumersClient.emit<ConsumersEvents, CreateExamAnswerDto>(
+  async createExamAnswer(createExamAnswerDtoIn: CreateExamAnswerDto, providerExamAnswer: GetExamAnswersDto) {
+    this.remoteConsumersClient.emit<ConsumersEvents, CreateExamAnswerDtoOut>(
       ConsumersEvents.CREATE_EXAM_ANSWER,
-      createExamAnswerDtoIn,
+      { submittedExamAnswer: createExamAnswerDtoIn, providerExamAnswer },
     );
   }
 

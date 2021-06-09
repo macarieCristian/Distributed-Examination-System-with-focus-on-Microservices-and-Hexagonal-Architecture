@@ -6,6 +6,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { SharedController } from './port/incoming/shared.controller';
 import { WebsocketGateway } from './port/outgoing/websocket.gateway';
 import { WebsocketSessionsService } from './core/websocket-sessions.service';
+import { ExamsRemoteService } from '../exams/port/outgoing/exams-remote.service';
 
 @Global()
 @Module({
@@ -50,10 +51,12 @@ import { WebsocketSessionsService } from './core/websocket-sessions.service';
     { provide: APP_FILTER, useClass: CSRFExceptionFilter },
     WebsocketGateway,
     WebsocketSessionsService,
+    ExamsRemoteService,
   ],
   exports: [
     ClientsModule,
     WebsocketGateway,
+    ExamsRemoteService,
   ],
 })
 export class SharedModule {

@@ -8,6 +8,7 @@ import { Commands } from '../../../domain/enum/commands.enum';
 import { ExamHeaderDtoOut } from './dto/handle-get-consumer-available-exams-header/exam-header-dto-out';
 import { ExamDtoOut } from './dto/handle-get-all-questions-by-user/exam-dto-out';
 import { HandleGetConsumerAvailableExamDtoOut } from './dto/handle-get-consumer-available-exam/handle-get-consumer-available-exam-dto-out';
+import { HandleGetExamAnswersDtoOut } from './dto/handle-get-exam-answers/handle-get-exam-answers-dto-out';
 
 @Controller()
 export class ExamsController {
@@ -31,6 +32,11 @@ export class ExamsController {
       ...exam,
       questions: (examQuestions || []).map(examQuestion => examQuestion.question),
     };
+  }
+
+  @MessagePattern({ cmd: Commands.GET_EXAM_ANSWERS })
+  async handleGetExamAnswers(@Payload() examUuid: string): Promise<HandleGetExamAnswersDtoOut> {
+    return await this.examsService.getExamAnswers(examUuid);
   }
 
   @EventPattern(Events.CREATE_EXAM)

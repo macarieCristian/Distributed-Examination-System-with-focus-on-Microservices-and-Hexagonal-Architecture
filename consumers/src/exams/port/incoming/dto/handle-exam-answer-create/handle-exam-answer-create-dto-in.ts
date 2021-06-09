@@ -1,10 +1,7 @@
-import { QuestionDtoIn } from './question-dto-in';
+import { ExamAnswerCreateDtoIn } from './exam-answer-create/exam-answer-create-dto-in';
+import { ProviderExamAnswersDto } from './provider-exam-answers/provider-exam-answers-dto';
 
 export interface HandleExamAnswerCreateDtoIn {
-  examUuid: string;
-  ownerUuid: string;
-  consumerUuid: string;
-  startedAt: number;
-  submittedAt: number;
-  questions: QuestionDtoIn[];
+  submittedExamAnswer: ExamAnswerCreateDtoIn;
+  providerExamAnswer: ProviderExamAnswersDto;
 }

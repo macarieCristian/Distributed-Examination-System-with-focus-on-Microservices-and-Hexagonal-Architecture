@@ -10,14 +10,15 @@ import {DashboardComponent} from './dashboard.component';
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {SharedModule} from '../shared/shared.module';
 import {MatListModule} from '@angular/material/list';
-import { QuestionItemContentComponent } from './question/question-list/question-item-content/question-item-content.component';
+import {QuestionItemContentComponent} from './question/question-list/question-item-content/question-item-content.component';
 import {AngularResizedEventModule} from 'angular-resize-event';
-import { StatisticComponent } from './statistic/statistic.component';
+import {StatisticComponent} from './statistic/statistic.component';
 import {GoogleChartsModule} from 'angular-google-charts';
-import { ExamStatisticListComponent } from './statistic/exam-statistic-list/exam-statistic-list.component';
-import { QuestionStatisticListComponent } from './statistic/question-statistic-list/question-statistic-list.component';
+import {ExamStatisticListComponent} from './statistic/exam-statistic-list/exam-statistic-list.component';
+import {QuestionStatisticListComponent} from './statistic/question-statistic-list/question-statistic-list.component';
 import {MatBadgeModule} from '@angular/material/badge';
-import { QuestionStatisticsListItemComponent } from './statistic/question-statistic-list/question-statistics-list-item/question-statistics-list-item.component';
+import {QuestionStatisticsListItemComponent} from './statistic/question-statistic-list/question-statistics-list-item/question-statistics-list-item.component';
+import {GradeStatisticComponent} from './statistic/grade-statistic/grade-statistic.component';
 
 const material = [MatListModule, MatBadgeModule];
 
@@ -35,6 +36,7 @@ const material = [MatListModule, MatBadgeModule];
     ExamStatisticListComponent,
     QuestionStatisticListComponent,
     QuestionStatisticsListItemComponent,
+    GradeStatisticComponent,
   ],
   imports: [
     CommonModule,

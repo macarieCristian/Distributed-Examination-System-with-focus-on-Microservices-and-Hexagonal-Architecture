@@ -7,17 +7,20 @@ import {ExamAnswerQuestionDto} from '../../dtos/exam-answer-question.dto';
 import {ExamAnswerQuestionAnswer} from '../../models/exam-answer-question-answer.model';
 import {ExamAnswerQuestion} from '../../models/exam-answer-question.model';
 import {ExamAnswer} from '../../models/exam-answer.model';
+import {ExamGrade} from '../../models/exam-grade.model';
 
 export const statisticsFeatureKey = 'statistics';
 
 export interface StatisticsState {
   examAnswers: { [examUuid: string]: ExamAnswer };
+  examGrades: { [examUuid: string]: ExamGrade[] };
   loadExamAnswersErrorMessage: string | undefined;
   loadExamAnswersLoading: boolean;
 }
 
 const initialStatisticsState: StatisticsState = {
   examAnswers: {},
+  examGrades: {},
   loadExamAnswersErrorMessage: undefined,
   loadExamAnswersLoading: false,
 };
@@ -33,6 +36,7 @@ export const statisticsReducer = createReducer(initialStatisticsState,
     {
       ...state,
       examAnswers: mapExamAnswersToAnswerCount(examAnswers),
+      examGrades: mapExamAnswersToGrades(examAnswers),
       loadExamAnswersErrorMessage: undefined,
       loadExamAnswersLoading: false
     }
@@ -55,10 +59,29 @@ export const statisticsReducer = createReducer(initialStatisticsState,
             examAnswer
           ]
         )
+      },
+      examGrades: {
+        ...state.examGrades,
+        ...mapExamAnswersToGrades(
+          [
+            ...(state.examGrades[examAnswer.examUuid] ? state.examGrades[examAnswer.examUuid] : []),
+            examAnswer
+          ]
+        )
       }
     }
   ))
 );
+
+const mapExamAnswersToGrades = (examAnswers: (ExamAnswerDto | ExamAnswer | ExamGrade)[]): { [examUuid: string]: ExamGrade[] } =>
+  groupBy(examAnswers.map<ExamGrade>(examAnswer => ({
+    id: examAnswer.id,
+    examUuid: examAnswer.examUuid,
+    ownerUuid: examAnswer.ownerUuid,
+    consumerUuid: examAnswer.consumerUuid,
+    grade: examAnswer.grade,
+  })), 'examUuid');
+
 
 const mapExamAnswersToAnswerCount = (examAnswers: (ExamAnswerDto | ExamAnswer)[]): { [examUuid: string]: ExamAnswer } =>
   mapKeys(map<(ExamAnswerDto | ExamAnswer)[], ExamAnswer>(Object.values(groupBy(examAnswers, 'examUuid')),

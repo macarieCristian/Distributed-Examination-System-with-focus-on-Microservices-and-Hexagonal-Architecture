@@ -8,5 +8,5 @@ export class Answer {
   value?: string;
 
   @Column()
-  checked?: string;
+  checked?: boolean;
 }
