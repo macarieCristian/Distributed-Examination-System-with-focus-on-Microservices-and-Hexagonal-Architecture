@@ -1,0 +1,67 @@
+version: "3"
+services:
+  web-app:
+    build: ../web-app
+    restart: unless-stopped
+    ports:
+      - "4200:4200"
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+  postgresProviders:
+    image: postgres
+    restart: unless-stopped
+    environment:
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: providers
+    ports:
+      - "5433:5432"
+  postgresUsers:
+    image: postgres
+    restart: unless-stopped
+    environment:
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: auth
+    ports:
+      - "5434:5432"
+  users:
+    build: ../users
+    restart: unless-stopped
+    ports:
+      - "9030:9030"
+    depends_on:
+      - postgresUsers
+  consumers:
+    build: ../consumers
+    restart: unless-stopped
+    ports:
+      - "9050:9050"
+    depends_on:
+      - mongo
+  providers:
+    build: ../providers
+    restart: unless-stopped
+    ports:
+      - "9040:9040"
+    depends_on:
+      - postgresProviders
+  auth:
+    build: ../auth
+    restart: unless-stopped
+    ports:
+      - "9020:9020"
+    depends_on:
+      - users
+  gateway:
+    build: ../gateway
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9010:9010"
+    depends_on:
+      - users
+      - consumers
+      - providers
+      - auth

@@ -20,7 +20,7 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
-      host: 'localhost',
+      host: 'gateway',
       port: 9010,
       retryAttempts: 3,
       retryDelay: 3000,

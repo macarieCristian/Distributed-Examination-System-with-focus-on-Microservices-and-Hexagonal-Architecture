@@ -8,7 +8,7 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: 'localhost',
+        host: 'auth',
         port: 9020,
         retryAttempts: 3,
         retryDelay: 3000,

@@ -16,7 +16,7 @@ import { ExamsRemoteService } from '../exams/port/outgoing/exams-remote.service'
         name: Service.AUTH,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'auth',
           port: 9020,
         },
       },
@@ -24,7 +24,7 @@ import { ExamsRemoteService } from '../exams/port/outgoing/exams-remote.service'
         name: Service.USERS,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'users',
           port: 9030,
         },
       },
@@ -32,7 +32,7 @@ import { ExamsRemoteService } from '../exams/port/outgoing/exams-remote.service'
         name: Service.PROVIDERS,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'providers',
           port: 9040,
         },
       },
@@ -40,7 +40,7 @@ import { ExamsRemoteService } from '../exams/port/outgoing/exams-remote.service'
         name: Service.CONSUMERS,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'consumers',
           port: 9050,
         },
       },

@@ -6,10 +6,10 @@ import { User } from './domain/user.entity';
 @Module({
   imports: [UsersModule, TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
+    host: 'postgresUsers',
     port: 5432,
     username: 'postgres',
-    password: 'lebowski',
+    password: 'postgres',
     database: 'auth',
     entities: [User],
     synchronize: true,

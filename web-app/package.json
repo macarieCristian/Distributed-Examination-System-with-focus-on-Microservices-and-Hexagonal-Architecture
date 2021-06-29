@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "http-server": "http-server ./dist/web-app -p 4200 --proxy http://localhost:4200?"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "angular-google-charts": "^2.2.0",
     "angular-resize-event": "^2.1.0",
     "bootstrap": "^5.0.0-beta2",
+    "http-server": "^0.12.3",
     "lodash": "^4.17.21",
     "ngx-cookie-service": "^11.0.2",
     "ngx-toastr": "^13.2.1",

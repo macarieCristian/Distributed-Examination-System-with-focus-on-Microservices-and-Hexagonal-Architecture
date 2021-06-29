@@ -11,7 +11,7 @@ import { Service } from './domain/enum/service';
         name: Service.USERS,
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'users',
           port: 9030,
         },
       },
