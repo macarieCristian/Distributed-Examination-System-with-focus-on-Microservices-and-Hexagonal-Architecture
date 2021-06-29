@@ -1,4 +1,4 @@
-<p>{{question.description}}</p>
+<p class="question-description">{{question.description}}</p>
 <ng-container [ngSwitch]="question.type">
   <ng-container *ngSwitchCase="questionType.FREE_TEXT">
     <ng-container *ngFor="let answer of question.answers">

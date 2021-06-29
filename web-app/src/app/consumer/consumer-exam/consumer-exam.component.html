@@ -57,7 +57,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <p>{{activeExam?.questions[i].description}}</p>
+        <p class="question-description">{{activeExam?.questions[i].description}}</p>
         <ng-container [ngSwitch]="activeExam?.questions[i].type" formArrayName="answers">
           <ng-container *ngSwitchCase="questionType.FREE_TEXT">
             <ng-container *ngFor="let answerCtrl of getAnswersControls(i).controls; let j = index" [formGroupName]="j">
