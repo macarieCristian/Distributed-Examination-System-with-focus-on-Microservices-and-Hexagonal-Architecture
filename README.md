@@ -1,6 +1,6 @@
 # Distributed Examination System with focus on Microservices and Hexagonal Architecture (Disertation)
 
-Check [my Disertation's written thesis](https://github.com/macarieCristian/Distributed-Examination-System-with-focus-on-Microservices-and-Hexagonal-Architecture/blob/master/Dissertation-Thesis.pdf).
+Check [my Disertation's written thesis](https://github.com/macarieCristian/Distributed-Examination-System-with-focus-on-Microservices-and-Hexagonal-Architecture/blob/master/Dissertation-Thesis.pdf) for more details.
 
 Technologies: NestJs Microservices & Angular
 
